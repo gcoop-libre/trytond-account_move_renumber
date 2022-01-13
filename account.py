@@ -2,7 +2,7 @@
 # copyright notices and license terms.
 from trytond.model import ModelView, fields
 from trytond.pool import Pool, PoolMeta
-from trytond.pyson import PYSONEncoder
+from trytond.pyson import PYSONEncoder, Eval
 from trytond.wizard import Wizard, StateView, StateAction, Button
 from trytond.i18n import gettext
 from trytond.exceptions import UserWarning
@@ -26,10 +26,13 @@ class RenumberMovesStart(ModelView):
         required=True)
     first_number = fields.Integer('First Number', required=True,
         domain=[('first_number', '>', 0)])
+    first_move = fields.Many2One('account.move', 'First Move', required=True,
+        domain=[('period.fiscalyear', '=', Eval('fiscalyear', None))],
+        depends=['fiscalyear'])
 
     @staticmethod
     def default_first_number():
-        return 1
+        return 2
 
 
 class RenumberMoves(Wizard):
@@ -78,6 +81,19 @@ class RenumberMoves(Wizard):
                 ])
         move_vals = []
         for move in moves_to_renumber:
+            if move == self.start.first_move:
+                number_next_old = move.period.post_move_sequence_used.number_next
+                Sequence.write(list(sequences), {
+                        'number_next': 1,
+                        })
+                move_vals.extend(([move], {
+                            'post_number': Sequence.get_id(
+                                move.period.post_move_sequence_used.id),
+                            }))
+                Sequence.write(list(sequences), {
+                        'number_next': number_next_old,
+                        })
+                continue
             move_vals.extend(([move], {
                         'post_number': (
                             move.period.post_move_sequence_used.get()),
