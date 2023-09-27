@@ -27,8 +27,7 @@ class RenumberMovesStart(ModelView):
     first_number = fields.Integer('First Number', required=True,
         domain=[('first_number', '>', 0)])
     first_move = fields.Many2One('account.move', 'First Move', required=True,
-        domain=[('period.fiscalyear', '=', Eval('fiscalyear', None))],
-        depends=['fiscalyear'])
+        domain=[('period.fiscalyear', '=', Eval('fiscalyear', None))])
 
     @staticmethod
     def default_first_number():
