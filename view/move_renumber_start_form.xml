@@ -1,6 +1,4 @@
 <?xml version="1.0"?>
-<!-- The COPYRIGHT file at the top level of this repository contains the full
-     copyright notices and license terms. -->
 <form col="2">
     <label id="advice" colspan="2" xalign="0.5"
         string="This process will take a few minutes. Please, ensure that nobody create or confirm moves for selected fiscal year."/>

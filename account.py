@@ -1,11 +1,12 @@
 # The COPYRIGHT file at the top level of this repository contains the full
 # copyright notices and license terms.
+
 from trytond.model import ModelView, fields
+from trytond.wizard import Wizard, StateView, StateAction, Button
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import PYSONEncoder, Eval
-from trytond.wizard import Wizard, StateView, StateAction, Button
-from trytond.i18n import gettext
 from trytond.exceptions import UserWarning
+from trytond.i18n import gettext
 
 
 class Move(metaclass=PoolMeta):
@@ -13,13 +14,13 @@ class Move(metaclass=PoolMeta):
 
     @classmethod
     def __setup__(cls):
-        super(Move, cls).__setup__()
+        super().__setup__()
         if 'post_number' not in cls._check_modify_exclude:
             cls._check_modify_exclude.append('post_number')
 
 
 class RenumberMovesStart(ModelView):
-    '''Renumber Account Moves Start'''
+    'Renumber Account Moves Start'
     __name__ = 'account.move.renumber.start'
 
     fiscalyear = fields.Many2One('account.fiscalyear', 'Fiscal Year',
@@ -35,7 +36,7 @@ class RenumberMovesStart(ModelView):
 
 
 class RenumberMoves(Wizard):
-    '''Renumber Account Moves'''
+    'Renumber Account Moves'
     __name__ = 'account.move.renumber'
 
     start = StateView('account.move.renumber.start',
@@ -50,6 +51,7 @@ class RenumberMoves(Wizard):
         Move = pool.get('account.move')
         Sequence = pool.get('ir.sequence')
         Warning = pool.get('res.user.warning')
+
         draft_moves = Move.search([
                 ('period.fiscalyear', '=', self.start.fiscalyear.id),
                 ('state', '=', 'draft'),
@@ -81,7 +83,8 @@ class RenumberMoves(Wizard):
         move_vals = []
         for move in moves_to_renumber:
             if move == self.start.first_move:
-                number_next_old = move.period.post_move_sequence_used.number_next
+                number_next_old = (
+                    move.period.post_move_sequence_used.number_next)
                 Sequence.write(list(sequences), {
                         'number_next': 1,
                         })
