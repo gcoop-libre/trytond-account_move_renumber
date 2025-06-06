@@ -80,7 +80,8 @@ class RenumberMoves(Wizard):
                 ('date', 'ASC'),
                 ('id', 'ASC'),
                 ])
-        move_vals = []
+
+        to_write = []
         for move in moves_to_renumber:
             if move == self.start.first_move:
                 number_next_old = (
@@ -89,18 +90,19 @@ class RenumberMoves(Wizard):
                         'number_next': 1,
                         })
                 move_vals.extend(([move], {
-                            'post_number': Sequence.get_id(
-                                move.period.post_move_sequence_used.id),
+                            'post_number': (
+                                move.period.post_move_sequence_used.get()),
                             }))
                 Sequence.write(list(sequences), {
                         'number_next': number_next_old,
                         })
                 continue
-            move_vals.extend(([move], {
+            to_write.extend(([move], {
                         'post_number': (
                             move.period.post_move_sequence_used.get()),
                         }))
-        Move.write(*move_vals)
+        if to_write:
+            Move.write(*to_write)
 
         action['pyson_domain'] = PYSONEncoder().encode([
             ('period.fiscalyear', '=', self.start.fiscalyear.id),
