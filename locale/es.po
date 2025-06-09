@@ -10,6 +10,10 @@ msgctxt "field:account.move,company:"
 msgid "Company"
 msgstr "Empresa"
 
+msgctxt "field:account.move.renumber.start,first_move:"
+msgid "First Move"
+msgstr "Primer asiento"
+
 msgctxt "field:account.move.renumber.start,first_number:"
 msgid "First Number"
 msgstr "Primer número"
@@ -21,6 +25,10 @@ msgstr "Ejercicio fiscal"
 msgctxt "field:account.move.renumber.start,id:"
 msgid "ID"
 msgstr "ID"
+
+msgctxt "field:account.move.renumber.start,last_move:"
+msgid "Last Move"
+msgstr "Último asiento"
 
 msgctxt "model:account.move.renumber.start,name:"
 msgid "Renumber Account Moves Start"
@@ -52,4 +60,4 @@ msgstr "Cancelar"
 
 msgctxt "wizard_button:account.move.renumber,start,renumber:"
 msgid "Renumber"
-msgstr "Renumera"
+msgstr "Renumerar"
