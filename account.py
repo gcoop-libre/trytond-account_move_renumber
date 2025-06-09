@@ -89,7 +89,7 @@ class RenumberMoves(Wizard):
                 Sequence.write(list(sequences), {
                         'number_next': 1,
                         })
-                move_vals.extend(([move], {
+                to_write.extend(([move], {
                             'post_number': (
                                 move.period.post_move_sequence_used.get()),
                             }))
