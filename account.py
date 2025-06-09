@@ -27,7 +27,9 @@ class RenumberMovesStart(ModelView):
         required=True)
     first_number = fields.Integer('First Number', required=True,
         domain=[('first_number', '>', 0)])
-    first_move = fields.Many2One('account.move', 'First Move', required=True,
+    first_move = fields.Many2One('account.move', 'First Move',
+        domain=[('period.fiscalyear', '=', Eval('fiscalyear', None))])
+    last_move = fields.Many2One('account.move', 'Last Move',
         domain=[('period.fiscalyear', '=', Eval('fiscalyear', None))])
 
     @staticmethod
@@ -67,8 +69,9 @@ class RenumberMoves(Wizard):
         for period in self.start.fiscalyear.periods:
             if period.post_move_sequence:
                 sequences.add(period.post_move_sequence)
+        sequences = list(filter(None, sequences))
 
-        Sequence.write(list(sequences), {
+        Sequence.write(sequences, {
                 'number_next': self.start.first_number,
                 })
 
@@ -81,25 +84,34 @@ class RenumberMoves(Wizard):
                 ('id', 'ASC'),
                 ])
 
+        first_move = self.start.first_move
+        last_move = self.start.last_move
         to_write = []
         for move in moves_to_renumber:
-            if move == self.start.first_move:
+            if move == first_move:
                 number_next_old = (
                     move.period.post_move_sequence_used.number_next)
-                Sequence.write(list(sequences), {
+                Sequence.write(sequences, {
                         'number_next': 1,
                         })
                 to_write.extend(([move], {
                             'post_number': (
                                 move.period.post_move_sequence_used.get()),
                             }))
-                Sequence.write(list(sequences), {
+                Sequence.write(sequences, {
                         'number_next': number_next_old,
                         })
+                continue
+            if move == last_move:
                 continue
             to_write.extend(([move], {
                         'post_number': (
                             move.period.post_move_sequence_used.get()),
+                        }))
+        if last_move:
+            to_write.extend(([last_move], {
+                        'post_number': (
+                            last_move.period.post_move_sequence_used.get()),
                         }))
         if to_write:
             Move.write(*to_write)
