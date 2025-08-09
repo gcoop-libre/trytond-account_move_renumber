@@ -1,10 +1,6 @@
-# 
+#
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
-
-msgctxt "error:account.move.renumber:"
-msgid "There are Draft Moves in Fiscal Year \"%(fiscalyear)s\"."
-msgstr "El ejercicio fiscal \"%(fiscalyear)s\" tiene asientos en borrador."
 
 msgctxt "field:account.move,company:"
 msgid "Company"
@@ -22,9 +18,9 @@ msgctxt "field:account.move.renumber.start,fiscalyear:"
 msgid "Fiscal Year"
 msgstr "Ejercicio fiscal"
 
-msgctxt "field:account.move.renumber.start,id:"
-msgid "ID"
-msgstr "ID"
+msgctxt "field:account.move.renumber.start,last_move:"
+msgid "Last Move"
+msgstr "Último asiento"
 
 msgctxt "field:account.move.renumber.start,last_move:"
 msgid "Last Move"
@@ -32,27 +28,27 @@ msgstr "Último asiento"
 
 msgctxt "model:account.move.renumber.start,name:"
 msgid "Renumber Account Moves Start"
-msgstr "Renumera asientos Inicio"
+msgstr "Renumerar asientos Inicio"
 
 msgctxt "model:ir.action,name:wizard_move_renumber"
 msgid "Renumber Moves"
-msgstr "Renumera asientos"
+msgstr "Renumerar asientos"
+
+msgctxt "model:ir.message,text:draft_moves_in_fiscalyear"
+msgid "There are Draft Moves in Fiscal Year \"%(fiscalyear)s\"."
+msgstr "El ejercicio fiscal \"%(fiscalyear)s\" tiene asientos en borrador."
 
 msgctxt "model:ir.ui.menu,name:menu_move_renumber"
 msgid "Renumber Moves"
-msgstr "Renumera asientos"
-
-msgctxt "view:account.move.renumber.start:"
-msgid "Renumber Account Moves"
-msgstr "Renumera asientos"
+msgstr "Renumerar asientos"
 
 msgctxt "view:account.move.renumber.start:"
 msgid ""
 "This process will take a few minutes. Please, ensure that nobody create or "
 "confirm moves for selected fiscal year."
 msgstr ""
-"Este proceso tardará algunos minutos. Por favor, asegúrese que nadie crea o "
-"confirma asientos del ejercicio fiscal seleccionado."
+"Este proceso tardará algunos minutos. Por favor, asegúrese que nadie cree o "
+"confirme asientos del ejercicio fiscal seleccionado."
 
 msgctxt "wizard_button:account.move.renumber,start,end:"
 msgid "Cancel"

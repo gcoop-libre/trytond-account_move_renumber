@@ -55,9 +55,9 @@ class RenumberMoves(Wizard):
         Warning = pool.get('res.user.warning')
 
         draft_moves = Move.search([
-                ('period.fiscalyear', '=', self.start.fiscalyear.id),
-                ('state', '=', 'draft'),
-                ])
+            ('period.fiscalyear', '=', self.start.fiscalyear.id),
+            ('state', '=', 'draft'),
+            ])
         if draft_moves:
             key = 'move_renumber_draft_moves%s' % self.start.fiscalyear.id
             if Warning.check(key):
